@@ -33,3 +33,42 @@ LAN: 10.0.10.0/24
 Windows Server: 10.0.10.10
 Windows 11 Client: DHCP / Domain Joined
 Splunk Server: Log Monitoring
+```
+
+What I Configured
+Deployed a segmented virtual network using pfSense
+Configured DNS and DHCP services for internal client connectivity
+Joined a Windows 11 client to the Active Directory domain
+Enabled Windows audit logging for authentication events
+Installed and configured Splunk Universal Forwarder
+Ingested Windows Security logs into Splunk
+Created Splunk searches to identify failed login activity
+Splunk Log Monitoring
+
+Splunk was configured to collect Windows Security logs from the lab environment. This allowed authentication events to be searched, filtered, and visualized.
+
+One of the main event codes analyzed was:
+
+4625 = failed logon attempt
+
+Failed Logon Search
+
+```text
+index=main EventCode=4625
+| table _time Account_Name Workstation_Name Source_Network_Address IpAddress Logon_Type Failure_Reason
+```
+
+This query displays failed logon attempts with key fields such as the account name, workstation name, source network address, logon type, and failure reason.
+
+
+
+
+
+
+
+
+
+
+
+
+
