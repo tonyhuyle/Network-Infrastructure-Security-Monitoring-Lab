@@ -35,25 +35,28 @@ Windows 11 Client: DHCP / Domain Joined
 Splunk Server: Log Monitoring
 ```
 
-What I Configured
-Deployed a segmented virtual network using pfSense
-Configured DNS and DHCP services for internal client connectivity
-Joined a Windows 11 client to the Active Directory domain
-Enabled Windows audit logging for authentication events
-Installed and configured Splunk Universal Forwarder
-Ingested Windows Security logs into Splunk
-Created Splunk searches to identify failed login activity
-Splunk Log Monitoring
+## What I Configured
+
+- Deployed a segmented virtual network using pfSense
+- Configured DNS and DHCP services for internal client connectivity
+- Joined a Windows 11 client to the Active Directory domain
+- Enabled Windows audit logging for authentication events
+- Installed and configured Splunk Universal Forwarder
+- Ingested Windows Security logs into Splunk
+- Created Splunk searches to identify failed login activity
+
+
+## Splunk Log Monitoring
 
 Splunk was configured to collect Windows Security logs from the lab environment. This allowed authentication events to be searched, filtered, and visualized.
 
 One of the main event codes analyzed was:
 
-4625 = failed logon attempt
+- `4625` = failed logon attempt
 
-Failed Logon Search
+## Failed Logon Search
 
-```text
+```spl
 index=main EventCode=4625
 | table _time Account_Name Workstation_Name Source_Network_Address IpAddress Logon_Type Failure_Reason
 ```
@@ -61,14 +64,45 @@ index=main EventCode=4625
 This query displays failed logon attempts with key fields such as the account name, workstation name, source network address, logon type, and failure reason.
 
 
+## Brute Force Detection Query
 
+```spl
+index=main EventCode=4625
+| stats count earliest(_time) as firstSeen latest(_time) as lastSeen by Account_Name, Source_Network_Address, Logon_Type
+| where count >= 5
+| convert ctime(firstSeen) ctime(lastSeen)
+| sort -count
+```
+This query identifies repeated failed logon attempts by grouping events by account, source network address, and logon type. In the lab, this helped identify repeated authentication failures from a single internal source.
 
+## Dashboard Visualization
 
+A Splunk dashboard panel was created to show failed logons by source network address.
 
+```spl
+index=main EventCode=4625
+| stats count by Source_Network_Address
+| sort -count
+```
 
+This visualization made it easier to quickly identify which source generated the most failed authentication attempts.
 
+## Troubleshooting Performed
 
+During the lab, I diagnosed and resolved several common IT infrastructure issues, including:
 
+- IP addressing problems
+- DNS misconfigurations
+- Domain join issues
+- Windows client connectivity problems
+- Missing or inconsistent authentication logs
+- Splunk log ingestion verification
+
+## Key Takeaways
+
+This lab helped me practice core IT infrastructure skills in a realistic virtual environment. I gained hands-on experience with network segmentation, domain connectivity, DNS/DHCP troubleshooting, centralized log collection, and Windows authentication monitoring.
+
+The most important takeaway was learning how infrastructure issues and authentication events can be investigated using both system tools and centralized log data.
 
 
 
