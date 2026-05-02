@@ -1,0 +1,5 @@
+index=main EventCode=4625
+| stats count earliest(_time) as firstSeen latest(_time) as lastSeen by Account_Name, Source_Network_Address, Logon_Type
+| where count >= 5
+| convert ctime(firstSeen) ctime(lastSeen)
+| sort -count
