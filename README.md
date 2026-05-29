@@ -98,6 +98,28 @@ During the lab, I diagnosed and resolved several common IT infrastructure issues
 - Missing or inconsistent authentication logs
 - Splunk log ingestion verification
 
+## Screenshots
+
+### Splunk Log Ingestion
+![Splunk Log Ingestion](screenshots/splunk-log-ingestion.png)
+
+Splunk successfully ingesting Windows Security logs from the lab environment.
+
+### Failed Logon Events
+![Failed Logon Table](screenshots/failed-logons-table.png)
+
+Search results showing failed logon attempts (Event ID 4625).
+
+### Failed Logons by Source
+![Failed Logons by Source](screenshots/failed-logons-by-source-chart.png)
+
+Visualization of failed logon activity grouped by source network address.
+
+### Brute Force Detection
+![Brute Force Detection](screenshots/brute-force-detection-results.png)
+
+Search used to identify repeated failed authentication attempts that may indicate brute force activity.
+
 ## Key Takeaways
 
 This lab helped me practice core IT infrastructure skills in a realistic virtual environment. I gained hands-on experience with network segmentation, domain connectivity, DNS/DHCP troubleshooting, centralized log collection, and Windows authentication monitoring.
