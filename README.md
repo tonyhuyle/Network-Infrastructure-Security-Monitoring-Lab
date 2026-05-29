@@ -35,6 +35,10 @@ Windows 11 Client: DHCP / Domain Joined
 Splunk Server: Log Monitoring
 ```
 
+## Network Diagram
+
+![Network Diagram](diagrams/network-diagram.png)
+
 ## What I Configured
 
 - Deployed a segmented virtual network using pfSense
